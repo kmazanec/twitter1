@@ -1,6 +1,6 @@
-<div class="container">
-  <h1>Welcome to Sinatra!</h1>
-  <p>Hello, world!</p>
+
+<h1>Recent Tweets</h1>
+<h3 id="screen_name"><%= @user.screen_name %></h3>
 
 <% if @tweet_array %>
   <ul>
@@ -9,7 +9,8 @@
   <% end %>
   </ul>
 <% else %>
-  <img src="ajax-loader.gif">
+  <div id="pacman">
+    <p>Watch pac-man while you wait for fresh tweets from <%= @user.screen_name %></p>
+    <img src="ajax-loader.gif">
+  </div>
 <% end %>
-
-</div>

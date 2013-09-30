@@ -9,7 +9,8 @@ class TwitterUser < ActiveRecord::Base
 
     diff = recent_tweets.first.tweeted_at - recent_tweets.last.tweeted_at
 
-    self.tweets.last.created_at < (Time.now - (diff/100))
+    self.tweets.last.created_at < Time.now #- (diff/100))
+
   end
 
 end
