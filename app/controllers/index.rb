@@ -4,7 +4,24 @@ get '/' do
 end
 
 get '/:username' do
+
   @user = TwitterUser.find_by_screen_name(params[:username])
+
+  
+  if @user.nil? || @user.tweets.empty? || @user.tweets_stale?
+    erb :index
+  else
+    puts "Cache still smells good."
+  end
+
+  @tweet_array = @user.tweets.limit(10).order("tweeted_at DESC")
+
+  erb :index 
+end
+
+
+get 'ajax/:username' do
+
   unless @user
     tweet_array = Twitter.user_timeline(params[:username])
     @user = TwitterUser.create(screen_name: tweet_array.first[:attrs][:user][:screen_name],
@@ -14,8 +31,7 @@ get '/:username' do
                                 twitter_id: tweet_array.first[:attrs][:user][:id])
   
   end
-  
-  if @user.tweets.empty? || @user.tweets_stale?
+
     tweet_array ||= Twitter.user_timeline(params[:username])
 
     puts "Tweets are stale!  Getting new tweets!"
@@ -26,11 +42,6 @@ get '/:username' do
                                   tweeted_at: tweet[:attrs][:created_at])
     end
     @user.save
-  else
-    puts "Cache still smells good."
-  end
 
-  @tweet_array = @user.tweets.limit(10).order("tweeted_at DESC")
 
-  erb :index 
 end
