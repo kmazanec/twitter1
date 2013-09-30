@@ -11,6 +11,8 @@ require 'rubygems'
 require 'uri'
 require 'pathname'
 
+require 'twitter'
+
 require 'pg'
 require 'active_record'
 require 'logger'
@@ -31,3 +33,16 @@ Dir[APP_ROOT.join('app', 'helpers', '*.rb')].each { |file| require file }
 
 # Set up the database and models
 require APP_ROOT.join('config', 'database')
+
+twitter_keys_path = APP_ROOT.join('config', 'twitter_keys.yml')
+
+YAML.load(File.open(twitter_keys_path)).each do |key, val|
+  ENV[key.to_s] = val
+end
+
+Twitter.configure do |config|
+  config.consumer_key = ENV["TWITTER_KEY"]
+  config.consumer_secret = ENV["TWITTER_SECRET"]
+  config.oauth_token = ENV["OAUTH_TOKEN"]
+  config.oauth_token_secret = ENV["OAUTH_SECRET"]
+end
