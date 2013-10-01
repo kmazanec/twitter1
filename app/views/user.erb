@@ -1,0 +1,25 @@
+
+<h1>Recent Tweets</h1>
+<% if @user %>
+<h3 id="screen_name"><%= @user.screen_name %></h3>
+<% else %>
+<h3>Pick a user or enter a new one!</h3>
+<% end %>
+
+<% if @tweet_array %>
+  <ul>
+  <% @tweet_array.each do |tweet| %>
+    <li><%= tweet.text  %>, Tweeted at: <%= tweet.tweeted_at %></li>
+  <% end %>
+  </ul>
+<% elsif @user %>
+  <div id="waiting">
+    <p>Loading fresh tweets from <%= @user.screen_name %></p>
+    <img src="purple_spinner.gif">
+  </div>
+<% else %>
+  <div>
+    You ain't got nothin!
+  </div>
+<% end %>
+

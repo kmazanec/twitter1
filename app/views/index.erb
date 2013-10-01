@@ -1,16 +1,29 @@
 
-<h1>Recent Tweets</h1>
-<h3 id="screen_name"><%= @user.screen_name %></h3>
+<h1>Twitter for deaf grandma</h1>
+<h3>This site optimized for Internet Explorer 5.0.</h3>
 
-<% if @tweet_array %>
-  <ul>
-  <% @tweet_array.each do |tweet| %>
-    <li><%= tweet.text  %>, Tweeted at: <%= tweet.tweeted_at %></li>
-  <% end %>
-  </ul>
-<% else %>
-  <div id="pacman">
-    <p>Watch pac-man while you wait for fresh tweets from <%= @user.screen_name %></p>
-    <img src="ajax-loader.gif">
-  </div>
+<% if @message %>
+  <h4><%= @message %></h4>
 <% end %>
+
+<form action="/get_tweets" method="post">
+  <label for="username">Enter a username: </label>
+  <input id="username" type="text" name="username">
+  <input type="submit">
+</form>
+
+<div id="submit_new_tweet_container">
+  <form id="post_new_tweet" action="/send_tweet" method="post">
+    <label for="new_tweet">Enter a tweet: </label>
+    <input id="new_tweet" type="text" name="new_tweet">
+    <input type="submit">
+  </form>
+</div>
+
+<div id='waiting' hidden>
+  <img src='purple_spinner.gif'>
+</div>
+
+<div id="response_message">
+
+</div>

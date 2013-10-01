@@ -1,5 +1,9 @@
 get '/' do
 
+  if session[:message]
+    @message = session[:message]
+  end
+
   erb :index
 end
 
@@ -15,7 +19,7 @@ get '/:username' do
     puts "Cache still smells good."
   end
 
-  erb :index 
+  erb :user 
 end
 
 
@@ -46,6 +50,35 @@ get '/ajax/:username' do
   @tweet_array = @user.tweets.limit(10).order("tweeted_at DESC")
   @user.save
 
-  erb :index, layout: false
+  erb :user, layout: false
 
 end
+
+
+post '/get_tweets' do
+
+  redirect to "/#{params[:username]}"
+
+end
+
+post '/send_tweet' do
+  sleep(0.5)
+  if true#Twitter.update(params[:new_tweet])
+    session[:message] = "Successfully tweeted!"
+  else
+    session[:message] = "Failed to send message"
+  end
+
+  if request.xhr?
+    session[:message]
+  else
+    redirect to '/'
+  end
+end
+
+
+
+
+
+
+

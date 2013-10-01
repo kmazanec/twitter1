@@ -7,3 +7,16 @@
 th {
   text-align: left;
 }
+
+#waiting {
+  width: 50%;
+  margin: 0 auto;
+}
+
+#waiting img {
+  margin: 0 auto;
+}
+
+#post_new_tweet[disabled="disabled"] input[type="submit"] {
+  color: #aaa;
+}
